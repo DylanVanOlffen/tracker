@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>100 Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0a; --surface: #141414; --surface2: #1c1c1c; --surface3: #222;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.14);
+  --text: #f0ede8; --muted: #555; --muted2: #888;
+  --accent: #e8d5b0; --accent2: #c4a96d;
+  --ff-d: 'Bebas Neue', sans-serif; --ff-m: 'DM Mono', monospace; --ff-b: 'DM Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: var(--ff-b); overflow-x: hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:999; opacity:0.35; }
+body::after { content:''; position:fixed; top:-20vh; left:50%; transform:translateX(-50%); width:70vw; height:50vh; background:radial-gradient(ellipse, rgba(196,169,109,0.06) 0%, transparent 70%); pointer-events:none; }
+.nav { position:sticky; top:0; z-index:100; background:rgba(10,10,10,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 1rem; height:60px; }
+.nav-logo { font-family:var(--ff-d); font-size:1.4rem; letter-spacing:0.05em; color:var(--accent); }
+.nav-tabs { display:flex; gap:2px; background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:4px; }
+.nav-tab { font-family:var(--ff-m); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted2); background:none; border:none; padding:8px 14px; border-radius:99px; cursor:pointer; transition:all 0.2s; min-height:36px; }
+.nav-tab.active { background:var(--surface3); color:var(--text); border:1px solid var(--border2); }
+.page { display:none; padding:2rem 1.5rem 5rem; max-width:700px; margin:0 auto; }
+.page.active { display:block; animation:fadeUp 0.4s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+/* HOME */
+.home-hero { margin-bottom:2rem; padding-bottom:2rem; border-bottom:1px solid var(--border); }
+.eyebrow { font-family:var(--ff-m); font-size:10px; letter-spacing:0.15em; color:var(--accent2); text-transform:uppercase; margin-bottom:0.4rem; }
+.big-num { font-family:var(--ff-d); font-size:clamp(5rem,18vw,9rem); line-height:0.9; color:var(--accent); }
+.big-label { font-family:var(--ff-d); font-size:clamp(2.5rem,8vw,4.5rem); line-height:1; color:var(--text); letter-spacing:0.02em; }
+.home-sub { margin-top:0.75rem; font-size:13px; color:var(--muted2); font-weight:300; }
+.tiles { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:2rem; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.1rem 1.25rem; display:flex; flex-direction:column; gap:6px; }
+.tile.wide { grid-column:1/-1; }
+.tile-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.12em; color:var(--muted); text-transform:uppercase; }
+.tile-value { font-family:var(--ff-d); font-size:2.2rem; letter-spacing:0.03em; color:var(--text); line-height:1; }
+.tile-value.accent { color:var(--accent); }
+.tile-value.small { font-size:1.4rem; }
+.tile-sub { font-size:11px; color:var(--muted2); font-weight:300; }
+.eod-bar { height:3px; background:var(--surface2); border-radius:99px; margin-top:8px; overflow:hidden; }
+.eod-fill { height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent)); border-radius:99px; transition:width 1s linear; }
+.quote-card { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent2); border-radius:0 12px 12px 0; padding:1.1rem 1.25rem; margin-bottom:2rem; cursor:pointer; transition:border-color 0.2s; }
+.quote-card:hover { border-left-color:var(--accent); }
+.quote-text { font-size:14px; color:var(--text); font-style:italic; font-weight:300; line-height:1.6; margin-bottom:6px; }
+.quote-author { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted2); text-transform:uppercase; }
+.quote-hint { font-size:10px; color:var(--muted); margin-top:4px; }
+.prog-wrap { margin-bottom:2rem; }
+.prog-meta { display:flex; justify-content:space-between; margin-bottom:8px; font-family:var(--ff-m); font-size:10px; color:var(--muted); letter-spacing:0.05em; }
+.prog-track { height:3px; background:var(--surface2); border-radius:99px; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent)); border-radius:99px; transition:width 0.4s cubic-bezier(0.4,0,0.2,1); position:relative; }
+.prog-fill::after { content:''; position:absolute; right:-1px; top:50%; transform:translateY(-50%); width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent2); opacity:var(--dot-op,0); transition:opacity 0.3s; }
+
+/* DAYS */
+.section-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.grid { display:grid; grid-template-columns:repeat(10,1fr); gap:5px; margin-bottom:1.5rem; }
+.day { aspect-ratio:1; border-radius:6px; border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; font-family:var(--ff-m); font-size:10px; color:var(--muted); background:var(--surface); transition:all 0.12s; user-select:none; -webkit-tap-highlight-color:transparent; }
+.day:hover { border-color:var(--border2); color:var(--text); transform:scale(1.1); z-index:2; position:relative; }
+.day:active { transform:scale(0.93); }
+.day.done { background:var(--accent); border-color:var(--accent); color:#0a0a0a; font-weight:500; }
+.day.done:hover { background:var(--text); border-color:var(--text); }
+@keyframes pop { 0%{transform:scale(1)} 45%{transform:scale(1.25)} 100%{transform:scale(1)} }
+.day.popping { animation:pop 0.22s ease; }
+.days-footer { display:flex; align-items:center; justify-content:space-between; padding-top:1.5rem; border-top:1px solid var(--border); }
+.btn-reset { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted); background:none; border:1px solid var(--border); padding:6px 14px; border-radius:99px; cursor:pointer; text-transform:uppercase; transition:all 0.15s; }
+.btn-reset:hover { border-color:var(--border2); color:var(--text); }
+.days-stat { font-size:12px; color:var(--muted2); }
+.days-stat span { color:var(--accent); font-weight:500; }
+
+/* MOOD */
+.mood-today { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.5rem; margin-bottom:2rem; }
+.mood-title { font-family:var(--ff-d); font-size:1.6rem; letter-spacing:0.05em; margin-bottom:1rem; }
+.mood-options { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:1rem; }
+.mood-btn { aspect-ratio:1; border-radius:10px; border:1px solid var(--border); background:var(--surface2); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; transition:all 0.15s; -webkit-tap-highlight-color:transparent; }
+.mood-btn:hover { border-color:var(--border2); transform:scale(1.05); }
+.mood-btn:active { transform:scale(0.95); }
+.mood-btn.selected { border-color:var(--accent2); background:rgba(196,169,109,0.1); }
+.mood-emoji { font-size:1.5rem; }
+.mood-name { font-family:var(--ff-m); font-size:9px; letter-spacing:0.05em; color:var(--muted2); text-transform:uppercase; }
+.mood-note { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:var(--ff-b); font-size:13px; font-weight:300; padding:10px 12px; resize:none; outline:none; margin-bottom:10px; transition:border-color 0.15s; line-height:1.5; }
+.mood-note:focus { border-color:var(--border2); }
+.mood-note::placeholder { color:var(--muted); }
+.btn-save { font-family:var(--ff-m); font-size:11px; letter-spacing:0.1em; color:#0a0a0a; background:var(--accent); border:none; padding:9px 20px; border-radius:99px; cursor:pointer; text-transform:uppercase; transition:all 0.15s; }
+.btn-save:hover { background:var(--text); }
+.btn-save:active { transform:scale(0.97); }
+.mood-log { display:flex; flex-direction:column; gap:8px; }
+.mood-entry { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; display:flex; gap:12px; align-items:flex-start; }
+.entry-emoji { font-size:1.6rem; flex-shrink:0; margin-top:2px; }
+.entry-body { flex:1; min-width:0; }
+.entry-meta { font-family:var(--ff-m); font-size:10px; letter-spacing:0.08em; color:var(--muted2); text-transform:uppercase; margin-bottom:4px; }
+.entry-note { font-size:13px; color:var(--muted2); font-weight:300; line-height:1.5; }
+
+/* OVERLAY */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:500; display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.overlay.visible { opacity:1; pointer-events:all; }
+.milestone-card { background:var(--surface); border:1px solid var(--border2); border-radius:20px; padding:2.5rem 2rem; max-width:340px; width:100%; text-align:center; transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.overlay.visible .milestone-card { transform:scale(1); }
+.ms-icon { font-size:3.5rem; margin-bottom:1rem; }
+.ms-title { font-family:var(--ff-d); font-size:3rem; letter-spacing:0.05em; color:var(--accent); line-height:1; margin-bottom:0.5rem; }
+.ms-sub { font-size:14px; color:var(--muted2); font-weight:300; margin-bottom:1.5rem; line-height:1.5; }
+.btn-dismiss { font-family:var(--ff-m); font-size:11px; letter-spacing:0.1em; color:#0a0a0a; background:var(--accent); border:none; padding:10px 24px; border-radius:99px; cursor:pointer; text-transform:uppercase; }
+.confetti-piece { position:fixed; width:8px; height:8px; border-radius:2px; pointer-events:none; z-index:600; animation:confettiFall var(--dur) ease-in forwards; }
+@keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+/* POEM OVERLAY */
+.poem-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:450; display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+.poem-overlay.visible { opacity:1; pointer-events:all; }
+.poem-card { max-width:420px; width:100%; transform:translateY(16px); transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1); }
+.poem-overlay.visible .poem-card { transform:translateY(0); }
+.poem-day-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.18em; color:var(--accent2); text-transform:uppercase; margin-bottom:1.5rem; }
+.poem-lines { font-family:'DM Sans', sans-serif; font-size:15px; font-style:italic; font-weight:300; line-height:1.9; color:var(--text); white-space:pre-line; margin-bottom:1.75rem; }
+.poem-lines em { font-style:normal; color:var(--accent); }
+.poem-meta { margin-bottom:2rem; }
+.poem-title { font-family:var(--ff-m); font-size:11px; letter-spacing:0.08em; color:var(--muted2); }
+.poem-author { font-family:var(--ff-d); font-size:1.5rem; letter-spacing:0.06em; color:var(--accent); margin-top:4px; }
+.poem-actions { display:flex; gap:10px; align-items:center; }
+.btn-close-poem { font-family:var(--ff-m); font-size:11px; letter-spacing:0.1em; color:#0a0a0a; background:var(--accent); border:none; padding:10px 24px; border-radius:99px; cursor:pointer; text-transform:uppercase; transition:background 0.15s; }
+.btn-close-poem:hover { background:var(--text); }
+.btn-next-poem { font-family:var(--ff-m); font-size:11px; letter-spacing:0.1em; color:var(--muted2); background:none; border:1px solid var(--border2); padding:10px 18px; border-radius:99px; cursor:pointer; text-transform:uppercase; transition:all 0.15s; }
+.btn-next-poem:hover { color:var(--text); border-color:var(--border2); }
+
+/* DAILY QUESTION */
+.q-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; padding:2rem 0; text-align:center; }
+.q-date { font-family:var(--ff-m); font-size:10px; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:3rem; }
+.q-mark { font-family:var(--ff-d); font-size:8rem; line-height:1; color:var(--border2); margin-bottom:2rem; user-select:none; }
+.q-text { font-size:clamp(1.1rem,3.5vw,1.4rem); color:var(--text); font-weight:300; line-height:1.7; max-width:420px; margin:0 auto 2.5rem; font-style:italic; opacity:0; transform:translateY(12px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.q-text.visible { opacity:1; transform:translateY(0); }
+.q-source { font-family:var(--ff-m); font-size:10px; letter-spacing:0.12em; color:var(--muted); text-transform:uppercase; margin-bottom:3rem; opacity:0; transition:opacity 0.6s ease 0.2s; }
+.q-source.visible { opacity:1; }
+.q-hint { font-family:var(--ff-m); font-size:10px; letter-spacing:0.12em; color:var(--muted); text-transform:uppercase; margin-bottom:0.5rem; }
+.q-hint-sub { font-size:12px; color:var(--muted); font-weight:300; }
+.q-nav { display:flex; gap:10px; margin-top:3rem; }
+.q-nav-btn { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted2); background:none; border:1px solid var(--border); padding:7px 16px; border-radius:99px; cursor:pointer; text-transform:uppercase; transition:all 0.15s; }
+.q-nav-btn:hover { border-color:var(--border2); color:var(--text); }
+.q-prev-wrap { margin-top:3rem; width:100%; max-width:440px; }
+.q-prev-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.q-prev-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.q-prev-item { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; margin-bottom:8px; }
+.q-prev-item-text { font-size:13px; color:var(--muted2); font-weight:300; line-height:1.6; font-style:italic; }
+.q-prev-item-date { font-family:var(--ff-m); font-size:9px; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; margin-top:6px; }
+
+/* MEMENTO MORI */
+.mort-page { display:flex; flex-direction:column; align-items:center; padding:3rem 0 2rem; text-align:center; }
+.mort-latin { font-family:var(--ff-d); font-size:clamp(2.2rem,8vw,3.8rem); letter-spacing:0.12em; color:var(--accent); line-height:1; margin-bottom:0.5rem; }
+.mort-translation { font-family:var(--ff-m); font-size:10px; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:3rem; }
+.mort-skull { font-size:4rem; margin-bottom:2.5rem; opacity:0.7; animation:mortPulse 4s ease-in-out infinite; }
+@keyframes mortPulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:0.9;transform:scale(1.04)} }
+.mort-numbers { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:400px; margin-bottom:2.5rem; }
+.mort-num-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.25rem 1rem; display:flex; flex-direction:column; gap:6px; }
+.mort-num-value { font-family:var(--ff-d); font-size:2.4rem; letter-spacing:0.04em; color:var(--text); line-height:1; }
+.mort-num-value.accent { color:var(--accent); }
+.mort-num-label { font-family:var(--ff-m); font-size:9px; letter-spacing:0.12em; color:var(--muted); text-transform:uppercase; }
+.mort-divider { width:1px; height:3rem; background:var(--border); margin:0 auto 2.5rem; }
+.mort-reflection { width:100%; max-width:440px; margin-bottom:2.5rem; }
+.mort-reflection-text { font-size:15px; color:var(--text); font-weight:300; line-height:1.8; font-style:italic; margin-bottom:1rem; }
+.mort-reflection-source { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted2); text-transform:uppercase; }
+.mort-tap-hint { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; cursor:pointer; border:none; background:none; padding:0; transition:color 0.15s; }
+.mort-tap-hint:hover { color:var(--muted2); }
+.mort-bar-wrap { width:100%; max-width:400px; margin-bottom:3rem; }
+.mort-bar-label { display:flex; justify-content:space-between; font-family:var(--ff-m); font-size:10px; letter-spacing:0.08em; color:var(--muted); margin-bottom:8px; }
+.mort-bar-track { height:2px; background:var(--surface2); border-radius:99px; }
+.mort-bar-fill { height:100%; background:linear-gradient(90deg, var(--muted), var(--accent2)); border-radius:99px; transition:width 1s ease; }
+.vent-wrap { display:flex; flex-direction:column; align-items:center; padding:2rem 0 1rem; }
+.vent-count-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:2.5rem; }
+.vent-count-label span { color:var(--accent2); }
+.vent-btn-wrap { position:relative; margin-bottom:3rem; }
+.vent-btn {
+  width:160px; height:160px; border-radius:50%;
+  background: radial-gradient(circle at 40% 35%, #2a1a0a, #1a0e05);
+  border:2px solid rgba(196,169,109,0.2);
+  cursor:pointer; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:8px;
+  transition:all 0.15s; position:relative; overflow:hidden;
+  box-shadow: 0 0 40px rgba(196,169,109,0.05), inset 0 1px 0 rgba(255,255,255,0.05);
+  -webkit-tap-highlight-color:transparent;
+}
+.vent-btn:hover { border-color:rgba(196,169,109,0.4); box-shadow:0 0 60px rgba(196,169,109,0.1); transform:scale(1.03); }
+.vent-btn:active { transform:scale(0.93); }
+.vent-btn.shaking { animation:ventShake 0.5s ease; }
+@keyframes ventShake {
+  0%{transform:scale(0.93) rotate(0deg)}
+  15%{transform:scale(1.05) rotate(-4deg)}
+  30%{transform:scale(1.08) rotate(4deg)}
+  45%{transform:scale(1.05) rotate(-3deg)}
+  60%{transform:scale(1.03) rotate(2deg)}
+  75%{transform:scale(1.02) rotate(-1deg)}
+  100%{transform:scale(1) rotate(0deg)}
+}
+.vent-btn-icon { font-size:2.8rem; line-height:1; transition:transform 0.3s; }
+.vent-btn-label { font-family:var(--ff-d); font-size:1.1rem; letter-spacing:0.1em; color:var(--accent); }
+.vent-ripple {
+  position:absolute; border-radius:50%;
+  background:rgba(196,169,109,0.15);
+  transform:scale(0); animation:ripple 0.6s ease-out forwards;
+  pointer-events:none;
+}
+@keyframes ripple { to{transform:scale(4);opacity:0;} }
+.vent-response {
+  width:100%; max-width:440px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:1.5rem 1.5rem 1.25rem;
+  margin-bottom:1.5rem;
+  opacity:0; transform:translateY(10px);
+  transition:opacity 0.4s ease, transform 0.4s ease;
+}
+.vent-response.visible { opacity:1; transform:translateY(0); }
+.vent-response-text { font-size:15px; color:var(--text); font-weight:300; line-height:1.7; margin-bottom:0.75rem; }
+.vent-response-sub { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; }
+.vent-history { width:100%; max-width:440px; }
+.vent-history-label { font-family:var(--ff-m); font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.vent-history-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.vent-history-items { display:flex; flex-direction:column; gap:8px; }
+.vent-history-item { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:0.9rem 1.1rem; }
+.vent-history-text { font-size:13px; color:var(--muted2); font-weight:300; line-height:1.6; }
+.vent-history-time { font-family:var(--ff-m); font-size:9px; letter-spacing:0.08em; color:var(--muted); text-transform:uppercase; margin-top:6px; }
+.vent-clear { font-family:var(--ff-m); font-size:10px; letter-spacing:0.1em; color:var(--muted); background:none; border:none; cursor:pointer; text-transform:uppercase; margin-top:1rem; padding:0; transition:color 0.15s; }
+.vent-clear:hover { color:var(--muted2); }
+  .page { padding:1.5rem 1rem 5rem; }
+  .grid { gap:4px; }
+  .day { font-size:9px; border-radius:5px; }
+  .mood-options { gap:6px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">100 DAYS</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-page="home">Home</button>
+    <button class="nav-tab" data-page="days">Days</button>
+    <button class="nav-tab" data-page="mood">Mood</button>
+    <button class="nav-tab" data-page="vent">Vent</button>
+    <button class="nav-tab" data-page="mort">Mort</button>
+    <button class="nav-tab" data-page="question">?</button>
+  </div>
+</nav>
+
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="eyebrow">Internship Tracker</div>
+    <div class="big-num" id="h-remaining">100</div>
+    <div class="big-label">DAYS LEFT</div>
+    <div class="home-sub" id="h-sub">Day one is the hardest. Let's go.</div>
+  </div>
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-label">Completed</div>
+      <div class="tile-value accent" id="h-done">0</div>
+      <div class="tile-sub">days checked off</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Until weekend</div>
+      <div class="tile-value" id="h-weekend">—</div>
+      <div class="tile-sub" id="h-weekend-sub">days to go</div>
+    </div>
+    <div class="tile wide">
+      <div class="tile-label">Time left today</div>
+      <div class="tile-value small" id="h-eod">—</div>
+      <div class="tile-sub" id="h-eod-sub">until 5:30 PM</div>
+      <div class="eod-bar"><div class="eod-fill" id="eod-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="quote-card" id="quote-card">
+    <div class="quote-text" id="quote-text"></div>
+    <div class="quote-author" id="quote-author"></div>
+    <div class="quote-hint">new quote every visit · tap for another</div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-meta"><span>Overall progress</span><span id="h-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="page" id="page-days">
+  <div class="section-label">All 100 days</div>
+  <div class="grid" id="grid"></div>
+  <div class="days-footer">
+    <span class="days-stat"><span id="d-done">0</span> / 100 done</span>
+    <button class="btn-reset" id="btn-reset">Reset all</button>
+  </div>
+</div>
+
+<div class="page" id="page-mood">
+  <div class="mood-today">
+    <div class="mood-title">HOW ARE YOU TODAY?</div>
+    <div class="mood-options">
+      <button class="mood-btn" data-mood="0"><span class="mood-emoji">😩</span><span class="mood-name">Rough</span></button>
+      <button class="mood-btn" data-mood="1"><span class="mood-emoji">😕</span><span class="mood-name">Meh</span></button>
+      <button class="mood-btn" data-mood="2"><span class="mood-emoji">😐</span><span class="mood-name">Fine</span></button>
+      <button class="mood-btn" data-mood="3"><span class="mood-emoji">🙂</span><span class="mood-name">Good</span></button>
+      <button class="mood-btn" data-mood="4"><span class="mood-emoji">🔥</span><span class="mood-name">Crushing</span></button>
+    </div>
+    <textarea class="mood-note" id="mood-note" rows="3" placeholder="What happened today? (optional)"></textarea>
+    <button class="btn-save" id="btn-mood-save">Save today</button>
+  </div>
+  <div class="section-label">Log</div>
+  <div class="mood-log" id="mood-log">
+    <div style="font-size:13px;color:var(--muted);font-weight:300;padding:1rem 0;">No entries yet.</div>
+  </div>
+</div>
+
+<div class="page" id="page-vent">
+  <div class="vent-wrap">
+    <div class="vent-count-label">vented <span id="vent-count">0</span> times</div>
+    <div class="vent-btn-wrap">
+      <button class="vent-btn" id="vent-btn">
+        <span class="vent-btn-icon" id="vent-icon">😤</span>
+        <span class="vent-btn-label">HOLD IT</span>
+      </button>
+    </div>
+    <div class="vent-response" id="vent-response">
+      <div class="vent-response-text" id="vent-response-text"></div>
+      <div class="vent-response-sub">absorbed. moving on.</div>
+    </div>
+    <div class="vent-history" id="vent-history" style="display:none">
+      <div class="vent-history-label">Previous vents</div>
+      <div class="vent-history-items" id="vent-history-items"></div>
+      <button class="vent-clear" id="vent-clear">Clear history</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-mort">
+  <div class="mort-page">
+    <div class="mort-latin">MEMENTO MORI</div>
+    <div class="mort-translation">remember you will die</div>
+    <div class="mort-skull" id="mort-skull">💀</div>
+
+    <div class="mort-numbers">
+      <div class="mort-num-card">
+        <div class="mort-num-value accent" id="mort-days-done">0</div>
+        <div class="mort-num-label">days lived so far</div>
+      </div>
+      <div class="mort-num-card">
+        <div class="mort-num-value" id="mort-days-left">100</div>
+        <div class="mort-num-label">days remaining</div>
+      </div>
+      <div class="mort-num-card">
+        <div class="mort-num-value" id="mort-pct">0%</div>
+        <div class="mort-num-label">of internship gone</div>
+      </div>
+      <div class="mort-num-card">
+        <div class="mort-num-value" id="mort-weeks">0</div>
+        <div class="mort-num-label">weeks completed</div>
+      </div>
+    </div>
+
+    <div class="mort-bar-wrap">
+      <div class="mort-bar-label">
+        <span>internship</span>
+        <span id="mort-bar-pct">0%</span>
+      </div>
+      <div class="mort-bar-track">
+        <div class="mort-bar-fill" id="mort-bar-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="mort-divider"></div>
+
+    <div class="mort-reflection" id="mort-reflection">
+      <div class="mort-reflection-text" id="mort-reflection-text"></div>
+      <div class="mort-reflection-source" id="mort-reflection-source"></div>
+    </div>
+
+    <button class="mort-tap-hint" id="mort-next">another reflection</button>
+  </div>
+</div>
+
+<div class="page" id="page-question">
+  <div class="q-page">
+    <div class="q-date" id="q-date"></div>
+    <div class="q-mark">?</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-source" id="q-source"></div>
+    <div class="q-hint">today's question</div>
+    <div class="q-hint-sub">sit with it. no answer needed.</div>
+    <div class="q-nav">
+      <button class="q-nav-btn" id="q-prev-btn">← yesterday</button>
+      <button class="q-nav-btn" id="q-next-btn">another →</button>
+    </div>
+    <div class="q-prev-wrap" id="q-prev-wrap" style="display:none">
+      <div class="q-prev-label">recent questions</div>
+      <div id="q-prev-items"></div>
+    </div>
+  </div>
+</div>
+
+<div class="poem-overlay" id="poem-overlay">
+  <div class="poem-card">
+    <div class="poem-day-label" id="poem-day-label">Day 1</div>
+    <div class="poem-lines" id="poem-lines"></div>
+    <div class="poem-meta">
+      <div class="poem-title" id="poem-title"></div>
+      <div class="poem-author" id="poem-author"></div>
+    </div>
+    <div class="poem-actions">
+      <button class="btn-close-poem" id="btn-close-poem">Close</button>
+      <button class="btn-next-poem" id="btn-next-poem">Another poem</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="milestone-card">
+    <div class="ms-icon" id="ms-icon">🎯</div>
+    <div class="ms-title" id="ms-title">25%</div>
+    <div class="ms-sub" id="ms-sub">Quarter of the way done.</div>
+    <button class="btn-dismiss" id="btn-dismiss">Keep going</button>
+  </div>
+</div>
+
+<script>
+const TOTAL = 100;
+const KEY = 'intern_v3';
+const MOODS = ['😩','😕','😐','🙂','🔥'];
+const MOOD_NAMES = ['Rough','Meh','Fine','Good','Crushing'];
+const MILESTONES = {
+  10:  { icon:'🚀', title:'10 DAYS',  sub:"First 10 down. You're in it now." },
+  25:  { icon:'💪', title:'25%',      sub:'A quarter of the way through. Respect.' },
+  50:  { icon:'⚡', title:'HALFWAY',  sub:"50 days done. You're unstoppable." },
+  75:  { icon:'🏁', title:'75%',      sub:'Three quarters done. The end is real.' },
+  90:  { icon:'🔥', title:'90 DAYS',  sub:"Final stretch. Don't let up now." },
+  100: { icon:'🎓', title:'DONE.',    sub:'All 100 days. You actually did it.' }
+};
+const QUOTES = [
+  // Defiant / rebellious
+  { text:"The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.", author:"Albert Camus" },
+  { text:"If you're going to try, go all the way. Otherwise, don't even start.", author:"Charles Bukowski" },
+  { text:"No bird soars too high if he soars with his own wings.", author:"William Blake" },
+  { text:"You must have chaos within you to give birth to a dancing star.", author:"Friedrich Nietzsche" },
+  { text:"One must imagine Sisyphus happy.", author:"Albert Camus" },
+  { text:"Invent yourself and then reinvent yourself. Don't swim in the same slough.", author:"Charles Bukowski" },
+  { text:"I am an existentialist. Life is not given to us, it is made.", author:"Simone de Beauvoir" },
+  { text:"To live is the rarest thing in the world. Most people exist, that is all.", author:"Oscar Wilde" },
+  { text:"Not everything that is faced can be changed, but nothing can be changed until it is faced.", author:"James Baldwin" },
+  { text:"I am free and that is why I am lost.", author:"Franz Kafka" },
+  { text:"One must be absolutely modern.", author:"Arthur Rimbaud" },
+  { text:"Do not go gentle into that good night. Rage, rage against the dying of the light.", author:"Dylan Thomas" },
+  { text:"I took a deep breath and listened to the old brag of my heart: I am, I am, I am.", author:"Sylvia Plath" },
+  { text:"The road of excess leads to the palace of wisdom.", author:"William Blake" },
+  { text:"Always be a poet, even in prose.", author:"Charles Baudelaire" },
+  { text:"I have no money, no resources, no hopes. I am the happiest man alive.", author:"Henry Miller" },
+  { text:"The only people for me are the mad ones, the ones who are mad to live, mad to talk, mad to be saved.", author:"Jack Kerouac" },
+  { text:"Man must be surpassed. What have you done to surpass him?", author:"Friedrich Nietzsche" },
+
+  // Stoic / grounded
+  { text:"You have power over your mind, not outside events. Realize this, and you will find strength.", author:"Marcus Aurelius" },
+  { text:"The impediment to action advances action. What stands in the way becomes the way.", author:"Marcus Aurelius" },
+  { text:"Waste no more time arguing what a good man should be. Be one.", author:"Marcus Aurelius" },
+  { text:"While we're postponing, life speeds by. Nothing is ours, except time.", author:"Seneca" },
+  { text:"It is not that we have so little time but that we lose so much.", author:"Seneca" },
+  { text:"Men are disturbed not by the things which happen, but by the opinions about the things.", author:"Epictetus" },
+  { text:"Confine yourself to the present. Make the most of what is at hand.", author:"Marcus Aurelius" },
+  { text:"The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.", author:"Marcus Aurelius" },
+  { text:"He who is everywhere is nowhere.", author:"Seneca" },
+  { text:"Attention is the rarest and purest form of generosity.", author:"Simone Weil" },
+  { text:"The heart has its reasons which reason knows nothing of.", author:"Blaise Pascal" },
+  { text:"All of humanity's problems stem from man's inability to sit quietly in a room alone.", author:"Blaise Pascal" },
+
+  // Dark / existential
+  { text:"Beyond a certain point there is no return. This point has to be reached.", author:"Franz Kafka" },
+  { text:"There is infinite hope, but not for us.", author:"Franz Kafka" },
+  { text:"And if you gaze long into an abyss, the abyss also gazes into you.", author:"Friedrich Nietzsche" },
+  { text:"Pain and suffering are always inevitable for a large intelligence and a deep heart.", author:"Fyodor Dostoevsky" },
+  { text:"I shall tell you a great secret. The last judgement takes place every day.", author:"Albert Camus" },
+  { text:"I am a cage, in search of a bird.", author:"Franz Kafka" },
+  { text:"Life shrinks or expands in proportion to one's courage.", author:"Anaïs Nin" },
+  { text:"We don't see things as they are, we see them as we are.", author:"Anaïs Nin" },
+  { text:"Ever tried. Ever failed. No matter. Try again. Fail again. Fail better.", author:"Samuel Beckett" },
+  { text:"Things fall apart; the centre cannot hold.", author:"W.B. Yeats" },
+  { text:"In the dark times, will there also be singing? Yes, there will also be singing about the dark times.", author:"Bertolt Brecht" },
+  { text:"The flesh covers the bone and they put a mind in there and sometimes a soul, and the women break vases against the walls and the men drink too much.", author:"Charles Bukowski" },
+  { text:"Perhaps all the dragons in our lives are princesses waiting to see us act with beauty and courage.", author:"Rainer Maria Rilke" },
+  { text:"I'm the gap between my desire and what life has made of me.", author:"Fernando Pessoa" },
+
+  // Tender / melancholic
+  { text:"You do not need to leave your room. The world will freely offer itself to you.", author:"Franz Kafka" },
+  { text:"I would like to beg you to have patience with everything unresolved in your heart.", author:"Rainer Maria Rilke" },
+  { text:"The only journey is the one within.", author:"Rainer Maria Rilke" },
+  { text:"Out beyond ideas of wrongdoing and rightdoing, there is a field. I'll meet you there.", author:"Rumi" },
+  { text:"Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.", author:"Rumi" },
+  { text:"Your pain is the breaking of the shell that encloses your understanding.", author:"Khalil Gibran" },
+  { text:"Tell me, what is it you plan to do with your one wild and precious life?", author:"Mary Oliver" },
+  { text:"Hope is the thing with feathers that perches in the soul, and sings the tune without the words, and never stops at all.", author:"Emily Dickinson" },
+  { text:"Tonight I can write the saddest lines.", author:"Pablo Neruda" },
+  { text:"We shall not cease from exploration, and the end of all our exploring will be to arrive where we started and know the place for the first time.", author:"T.S. Eliot" },
+  { text:"Beauty is truth, truth beauty — that is all ye know on earth, and all ye need to know.", author:"John Keats" },
+  { text:"i carry your heart with me. i carry it in my heart. i am never without it.", author:"e.e. cummings" },
+  { text:"Arrange whatever pieces come your way.", author:"Virginia Woolf" },
+  { text:"Nothing can ever happen twice. We arrive here improvised and leave without the chance to practice.", author:"Wisława Szymborska" },
+  { text:"A day so happy. There was no thing on earth I wanted to possess.", author:"Czesław Miłosz" },
+  { text:"This being human is a guest house. Every morning a new arrival.", author:"Rumi" },
+
+  // Motivational / sharp
+  { text:"The secret of getting ahead is getting started.", author:"Mark Twain" },
+  { text:"It always seems impossible until it's done.", author:"Nelson Mandela" },
+  { text:"The only way out is through.", author:"Robert Frost" },
+  { text:"You must change your life.", author:"Rainer Maria Rilke" },
+  { text:"Beauty will save the world.", author:"Fyodor Dostoevsky" },
+  { text:"Above all, don't lie to yourself.", author:"Fyodor Dostoevsky" },
+  { text:"To be great, be whole. Put all you are into the least you do.", author:"Fernando Pessoa" },
+  { text:"Without music, life would be a mistake.", author:"Friedrich Nietzsche" },
+  { text:"That which is done out of love always takes place beyond good and evil.", author:"Friedrich Nietzsche" },
+  { text:"I want to do with you what spring does with the cherry trees.", author:"Pablo Neruda" },
+  { text:"What is great in man is that he is a bridge and not an end.", author:"Friedrich Nietzsche" },
+  { text:"You cannot find peace by avoiding life.", author:"Virginia Woolf" },
+  { text:"I must be a mermaid. I have no fear of depths and a great fear of shallow living.", author:"Anaïs Nin" },
+  { text:"I am large, I contain multitudes.", author:"Walt Whitman" },
+  { text:"There was nowhere to go but everywhere, so just keep rolling under the stars.", author:"Jack Kerouac" },
+  { text:"If you have some power, then your job is to empower somebody else.", author:"Toni Morrison" },
+  { text:"What happens to a dream deferred? Does it dry up like a raisin in the sun? Or does it explode?", author:"Langston Hughes" },
+  { text:"I have always believed that whatever good or bad fortune may come our way, we can always give it meaning.", author:"Hermann Hesse" },
+  { text:"I was one who seeks, and I still am. I'm beginning to hear the teachings of my blood pulsing within me.", author:"Hermann Hesse" },
+  { text:"You've survived 100% of your worst days so far.", author:"Unknown" },
+  { text:"The struggle itself toward the heights is enough to fill a man's heart.", author:"Albert Camus" },
+  { text:"Since feeling is first, who pays any attention to the syntax of things will never wholly kiss you.", author:"e.e. cummings" },
+  { text:"Life for me ain't been no crystal stair. But all the time I'se been a-climbin' on.", author:"Langston Hughes" },
+  { text:"One day you finally knew what you had to do, and began.", author:"Mary Oliver" },
+  { text:"In the midst of winter, I found there was, within me, an invincible summer.", author:"Albert Camus" },
+];
+
+// Pick a truly random quote on every page load (not saved to state)
+const _loadQuoteIdx = Math.floor(Math.random() * QUOTES.length);
+
+let state = { done:[], moods:[], seenMilestones:[], ventHistory:[] };
+let selectedMood = -1;
+let _quoteIdx = _loadQuoteIdx;
+
+function load() { try { const s=localStorage.getItem(KEY); if(s) state={...state,...JSON.parse(s)}; } catch(e){} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+const doneSet = () => new Set(state.done);
+
+// Nav
+document.querySelectorAll('.nav-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('page-'+btn.dataset.page).classList.add('active');
+  });
+});
+
+// Quote — random on load, cycles on tap
+function showQuote() {
+  const q = QUOTES[_quoteIdx % QUOTES.length];
+  const card = document.getElementById('quote-card');
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(6px)';
+  setTimeout(() => {
+    document.getElementById('quote-text').textContent = '\u201c' + q.text + '\u201d';
+    document.getElementById('quote-author').textContent = '— ' + q.author;
+    card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    card.style.opacity = '1';
+    card.style.transform = 'translateY(0)';
+  }, 150);
+}
+document.getElementById('quote-card').addEventListener('click', () => {
+  _quoteIdx = (_quoteIdx + 1) % QUOTES.length;
+  showQuote();
+});
+
+// EOD
+function updateEOD() {
+  const now = new Date();
+  const end = new Date(now); end.setHours(17,30,0,0);
+  const start = new Date(now); start.setHours(9,0,0,0);
+  const day = now.getDay();
+  const isWeekend = day===0||day===6;
+  const eodEl = document.getElementById('h-eod');
+  const eodSub = document.getElementById('h-eod-sub');
+  const eodFill = document.getElementById('eod-fill');
+  if (isWeekend) { eodEl.textContent='Weekend!'; eodSub.textContent='enjoy the break'; eodFill.style.width='100%'; return; }
+  if (now>=end) { eodEl.textContent='Done!'; eodSub.textContent='workday is over'; eodFill.style.width='100%'; return; }
+  if (now<start) { eodEl.textContent='Not started'; eodSub.textContent='starts at 9:00 AM'; eodFill.style.width='0%'; return; }
+  const pct = Math.min(100, Math.round((now-start)/(end-start)*100));
+  const remaining = end - now;
+  const h = Math.floor(remaining/3600000);
+  const m = Math.floor((remaining%3600000)/60000);
+  eodEl.textContent = h>0 ? h+'h '+m+'m left' : m+' min left';
+  eodSub.textContent = pct+'% of workday done';
+  eodFill.style.width = pct+'%';
+}
+
+function updateWeekend() {
+  const day = new Date().getDay();
+  const el = document.getElementById('h-weekend');
+  const sub = document.getElementById('h-weekend-sub');
+  if (day===0||day===6) { el.textContent='NOW'; sub.textContent="it's the weekend!"; return; }
+  const dLeft = 6-day;
+  el.textContent = dLeft;
+  sub.textContent = dLeft===1 ? 'day — tomorrow!' : 'days to Saturday';
+}
+
+function survivalMsg(n) {
+  if(n===0) return "Day one is the hardest. Let's go.";
+  if(n<10) return "Building momentum. Keep showing up.";
+  if(n<25) return "Early days — you're setting the tone.";
+  if(n<50) return "Finding your rhythm. Stay consistent.";
+  if(n===50) return "Halfway. The hardest part is behind you.";
+  if(n<75) return "More than halfway. The end is getting real.";
+  if(n<90) return "The finish line is visible. Don't stop.";
+  if(n<100) return "Just "+(100-n)+" more. You're basically done.";
+  return "ALL 100 DAYS. You did it.";
+}
+
+function render() {
+  const done = doneSet(); const n=done.size; const left=TOTAL-n; const pct=Math.round(n/TOTAL*100);
+  document.getElementById('h-remaining').textContent = left;
+  document.getElementById('h-done').textContent = n;
+  document.getElementById('h-pct').textContent = pct+'%';
+  document.getElementById('h-sub').textContent = survivalMsg(n);
+  document.getElementById('d-done').textContent = n;
+  const pf = document.getElementById('prog-fill');
+  pf.style.width = pct+'%';
+  pf.style.setProperty('--dot-op', n>0?1:0);
+  updateEOD(); updateWeekend();
+}
+
+// Grid
+function buildGrid() {
+  const grid = document.getElementById('grid'); grid.innerHTML='';
+  const done = doneSet();
+  for(let i=1;i<=TOTAL;i++){
+    const el=document.createElement('div');
+    el.className='day'+(done.has(i)?' done':'');
+    el.textContent=i;
+    el.addEventListener('click',()=>toggleDay(i,el));
+    grid.appendChild(el);
+  }
+}
+
+function toggleDay(i,el) {
+  const done=doneSet();
+  if(done.has(i)){done.delete(i);el.classList.remove('done');}
+  else{
+    done.add(i); el.classList.add('done','popping');
+    el.addEventListener('animationend',()=>el.classList.remove('popping'),{once:true});
+    checkMilestone(done.size);
+    setTimeout(()=>showPoem(i), 300);
+  }
+  state.done=[...done]; save(); render();
+}
+
+// Milestones
+function checkMilestone(n) {
+  if(MILESTONES[n]&&!state.seenMilestones.includes(n)){
+    state.seenMilestones.push(n); save(); showMilestone(MILESTONES[n]);
+  }
+}
+function showMilestone(m) {
+  document.getElementById('ms-icon').textContent=m.icon;
+  document.getElementById('ms-title').textContent=m.title;
+  document.getElementById('ms-sub').textContent=m.sub;
+  document.getElementById('overlay').classList.add('visible');
+  spawnConfetti();
+}
+document.getElementById('btn-dismiss').addEventListener('click',()=>{
+  document.getElementById('overlay').classList.remove('visible');
+});
+function spawnConfetti(){
+  const colors=['#e8d5b0','#c4a96d','#f0ede8','#888','#fff'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div'); el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};--dur:${0.8+Math.random()*1.4}s;animation-delay:${Math.random()*0.4}s;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+}
+
+// Mood
+document.querySelectorAll('.mood-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected'); selectedMood=parseInt(btn.dataset.mood);
+  });
+});
+document.getElementById('btn-mood-save').addEventListener('click',()=>{
+  if(selectedMood<0){alert('Pick a mood first!');return;}
+  const note=document.getElementById('mood-note').value.trim();
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  state.moods=[{date:today,mood:selectedMood,note},...state.moods];
+  save();
+  document.getElementById('mood-note').value='';
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  selectedMood=-1; renderMoodLog();
+});
+function renderMoodLog(){
+  const log=document.getElementById('mood-log');
+  if(!state.moods.length){log.innerHTML='<div style="font-size:13px;color:var(--muted);font-weight:300;padding:1rem 0;">No entries yet.</div>';return;}
+  log.innerHTML=state.moods.map(e=>`
+    <div class="mood-entry">
+      <div class="entry-emoji">${MOODS[e.mood]}</div>
+      <div class="entry-body">
+        <div class="entry-meta">${e.date} &middot; ${MOOD_NAMES[e.mood]}</div>
+        ${e.note?`<div class="entry-note">${e.note}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// ── POEMS ──
+const POEMS = [
+  // BUKOWSKI
+  { author:"Charles Bukowski", title:"The Laughing Heart", lines:"your life is your life.\ndon't let it be clubbed into dank submission.\nbe on the watch.\nthere are ways out.\nthere is light somewhere.\nit may not be much light\nbut it beats the darkness." },
+  { author:"Charles Bukowski", title:"Go All The Way", lines:"if you're going to try,\ngo all the way.\notherwise, don't even start.\nthis could mean losing girlfriends, wives,\nrelatives, jobs.\nit could mean freezing on a park bench.\nit means carrying it through." },
+  { author:"Charles Bukowski", title:"The Bluebird", lines:"there's a bluebird in my heart that\nwants to get out\nbut I'm too tough for him,\nI say, stay in there, I'm not going\nto let anybody see you." },
+  { author:"Charles Bukowski", title:"Roll the Dice", lines:"if you're going to try,\ngo all the way.\nthere is no other feeling like that.\nyou will be alone with the gods,\nand the nights will flame with fire.\nyou will ride life straight to\nperfect laughter." },
+  { author:"Charles Bukowski", title:"How To Be A Great Writer", lines:"drink more wine.\nwrite more.\nget rejected more.\nkeep writing.\nread more.\nlive more.\nand write more." },
+  { author:"Charles Bukowski", title:"The Crunch", lines:"there is a loneliness in this world so great\nthat you can see it in the slow movement\nof the hands of a clock.\npeople so tired\nmutilated\neither by love or no love." },
+  { author:"Charles Bukowski", title:"Air and Light and Time and Space", lines:"you know, I've either had a family, a job,\nsomething has always been in the\nway\nbut now\nI've sold my house, I've found this\nplace, a large studio, you should see the\nlight.\nfor the first time in my life I'm going to have\na place and the time to\ncreate." },
+  { author:"Charles Bukowski", title:"Alone With Everybody", lines:"the flesh covers the bone\nand they put a mind\nin there and\nsometimes a soul,\nand the women break\nvases against the walls\nand the men drink too\nmuch\nand nobody finds the\none\nbut keep looking." },
+  { author:"Charles Bukowski", title:"No Leaders Please", lines:"invent yourself and then reinvent yourself,\ndon't swim in the same slough.\ninvent yourself and then reinvent yourself\nand stay out of the clutches of mediocrity." },
+  { author:"Charles Bukowski", title:"The Secret", lines:"don't be like so many writers,\ndon't be like so many thousands of\npeople who call themselves writers.\ndon't be dull and boring and\npretentious, don't be consumed with self-\nlove.\nthe libraries of the world have\nyawned themselves to\nsleep\nover your kind." },
+
+  // KAFKA
+  { author:"Franz Kafka", title:"Diaries", lines:"I am a cage, in search of a bird." },
+  { author:"Franz Kafka", title:"Letters to Milena", lines:"You do not need to leave your room.\nRemain sitting at your table and listen.\nDo not even listen, simply wait.\nDo not even wait, be quiet still and solitary.\nThe world will freely offer itself to you.\nIt has no choice, it will roll in ecstasy at your feet." },
+  { author:"Franz Kafka", title:"The Trial", lines:"It's only because of their stupidity\nthat they're able to be so sure of themselves." },
+  { author:"Franz Kafka", title:"Letters to Felice", lines:"There is infinite hope,\nbut not for us." },
+  { author:"Franz Kafka", title:"Diaries", lines:"I am free and that is why I am lost." },
+  { author:"Franz Kafka", title:"The Metamorphosis", lines:"Was he an animal, that music could move him so?\nHe felt as if the way were opening before him\nto the unknown nourishment he craved." },
+  { author:"Franz Kafka", title:"Aphorisms", lines:"Beyond a certain point there is no return.\nThis point has to be reached." },
+  { author:"Franz Kafka", title:"Diaries", lines:"In the struggle between yourself and the world,\nsecond the world." },
+
+  // CAMUS
+  { author:"Albert Camus", title:"The Myth of Sisyphus", lines:"One must imagine Sisyphus happy.\nThe struggle itself toward the heights\nis enough to fill a man's heart." },
+  { author:"Albert Camus", title:"The Stranger", lines:"In the midst of winter,\nI found there was, within me,\nan invincible summer.\nAnd that makes me happy.\nFor it says that no matter how hard\nthe world pushes against me,\nwithin me, there's something stronger." },
+  { author:"Albert Camus", title:"The Myth of Sisyphus", lines:"The absurd is the essential concept\nand the first truth." },
+  { author:"Albert Camus", title:"Notebooks", lines:"In the middle of difficulty lies opportunity.\nIn the middle of boredom,\nlies the whole future." },
+  { author:"Albert Camus", title:"The Fall", lines:"I shall tell you a great secret, my friend.\nDo not wait for the last judgement.\nIt takes place every day." },
+  { author:"Albert Camus", title:"The Rebel", lines:"The only way to deal with an unfree world\nis to become so absolutely free\nthat your very existence is an act of rebellion." },
+
+  // NIETZSCHE
+  { author:"Friedrich Nietzsche", title:"Thus Spoke Zarathustra", lines:"You must have chaos within you\nto give birth to a dancing star." },
+  { author:"Friedrich Nietzsche", title:"Thus Spoke Zarathustra", lines:"That which is done out of love\nalways takes place beyond\ngood and evil." },
+  { author:"Friedrich Nietzsche", title:"Beyond Good and Evil", lines:"And if you gaze long into an abyss,\nthe abyss also gazes into you." },
+  { author:"Friedrich Nietzsche", title:"The Gay Science", lines:"What is great in man is that\nhe is a bridge and not an end." },
+  { author:"Friedrich Nietzsche", title:"Twilight of the Idols", lines:"Without music, life would be a mistake." },
+  { author:"Friedrich Nietzsche", title:"Thus Spoke Zarathustra", lines:"Man must be surpassed.\nWhat have you done to surpass him?" },
+
+  // RILKE
+  { author:"Rainer Maria Rilke", title:"Letters to a Young Poet", lines:"I would like to beg you, dear Sir,\nto have patience with everything unresolved in your heart\nand to try to love the questions themselves." },
+  { author:"Rainer Maria Rilke", title:"Archaic Torso of Apollo", lines:"You must change your life." },
+  { author:"Rainer Maria Rilke", title:"Letters to a Young Poet", lines:"Perhaps all the dragons in our lives\nare princesses who are only waiting\nto see us act, just once,\nwith beauty and courage." },
+  { author:"Rainer Maria Rilke", title:"Letters to a Young Poet", lines:"I want to beg you, as much as I can,\nto be patient toward all that is unsolved\nin your heart and to try to love\nthe questions themselves." },
+  { author:"Rainer Maria Rilke", title:"Duino Elegies", lines:"Who, if I cried out, would hear me\namong the angels' hierarchies?\nAnd even if one of them pressed me\nsuddenly to their heart,\nI would dissolve from their stronger existence." },
+  { author:"Rainer Maria Rilke", title:"Letters to a Young Poet", lines:"The only journey is the one within." },
+
+  // PESSOA
+  { author:"Fernando Pessoa", title:"The Book of Disquiet", lines:"I'm the gap between my desire\nand what life has made of me." },
+  { author:"Fernando Pessoa", title:"The Book of Disquiet", lines:"Everything tires me,\neven what doesn't tire me.\nMy joy is as painful as my pain." },
+  { author:"Fernando Pessoa", title:"Poems of Álvaro de Campos", lines:"To be great, be whole:\ndon't exaggerate or leave out\nany part of you.\nBe whole in each thing.\nPut all you are into the least you do." },
+  { author:"Fernando Pessoa", title:"The Book of Disquiet", lines:"I'm the interval between my desire\nand what life has made of me.\nI live only in the interstices of things." },
+  { author:"Fernando Pessoa", title:"Ode Maritima", lines:"To be everything, in every way,\nbecause the truth has no single shape.\nAll shapes are true." },
+
+  // MARCUS AURELIUS & STOICS
+  { author:"Marcus Aurelius", title:"Meditations", lines:"You have power over your mind,\nnot outside events.\nRealize this, and you will find strength." },
+  { author:"Marcus Aurelius", title:"Meditations", lines:"The impediment to action\nadvances action.\nWhat stands in the way\nbecomes the way." },
+  { author:"Marcus Aurelius", title:"Meditations", lines:"Confine yourself to the present.\nDo not dwell on what will come.\nMake the most of what is at hand." },
+  { author:"Marcus Aurelius", title:"Meditations", lines:"Waste no more time arguing\nwhat a good man should be.\nBe one." },
+  { author:"Marcus Aurelius", title:"Meditations", lines:"The object of life is not to be on the side of the majority,\nbut to escape finding oneself\nin the ranks of the insane." },
+  { author:"Seneca", title:"Letters from a Stoic", lines:"He who is everywhere is nowhere.\nNow — only now — is where you live." },
+  { author:"Seneca", title:"Letters from a Stoic", lines:"Dum differtur vita transcurrit.\nWhile we're postponing, life speeds by.\nNothing is ours, except time." },
+  { author:"Seneca", title:"On the Shortness of Life", lines:"It is not that we have so little time\nbut that we lose so much.\nThe life we receive is not short\nbut we make it so." },
+  { author:"Epictetus", title:"The Enchiridion", lines:"Men are disturbed not by the things\nwhich happen,\nbut by the opinions about the things." },
+
+  // DOSTOEVSKY
+  { author:"Fyodor Dostoevsky", title:"The Brothers Karamazov", lines:"Love in action is a harsh and dreadful thing\ncompared with love in dreams." },
+  { author:"Fyodor Dostoevsky", title:"The Idiot", lines:"Beauty will save the world." },
+  { author:"Fyodor Dostoevsky", title:"Crime and Punishment", lines:"Pain and suffering are always inevitable\nfor a large intelligence and a deep heart.\nThe really great men must, I think,\nhave great sadness on earth." },
+  { author:"Fyodor Dostoevsky", title:"The Brothers Karamazov", lines:"Above all, don't lie to yourself.\nThe man who lies to himself\nand listens to his own lie\ncomes to a point where he cannot distinguish\nthe truth within him." },
+
+  // WOOLF & NIN
+  { author:"Virginia Woolf", title:"The Waves", lines:"Arrange whatever pieces come your way." },
+  { author:"Virginia Woolf", title:"A Room of One's Own", lines:"You cannot find peace by avoiding life." },
+  { author:"Virginia Woolf", title:"Mrs Dalloway", lines:"She had the perpetual sense,\nas she watched the taxi cabs,\nof being out, out, far out to sea and alone." },
+  { author:"Anaïs Nin", title:"The Diary", lines:"I must be a mermaid.\nI have no fear of depths\nand a great fear of shallow living." },
+  { author:"Anaïs Nin", title:"Seduction of the Minotaur", lines:"Life shrinks or expands\nin proportion to one's courage." },
+  { author:"Anaïs Nin", title:"The Diary of Anaïs Nin", lines:"We don't see things as they are,\nwe see them as we are." },
+
+  // WHITMAN
+  { author:"Walt Whitman", title:"Song of Myself", lines:"I am large,\nI contain multitudes." },
+  { author:"Walt Whitman", title:"Song of the Open Road", lines:"Afoot and light-hearted I take to the open road,\nhealthy, free, the world before me,\nthe long brown path before me\nleading wherever I choose." },
+  { author:"Walt Whitman", title:"Song of Myself", lines:"I celebrate myself, and sing myself,\nand what I assume you shall assume,\nfor every atom belonging to me\nas good belongs to you." },
+
+  // PLATH & HUGHES
+  { author:"Sylvia Plath", title:"Lady Lazarus", lines:"Out of the ash\nI rise with my red hair\nAnd I eat men like air." },
+  { author:"Sylvia Plath", title:"The Bell Jar", lines:"I took a deep breath and listened\nto the old brag of my heart:\nI am, I am, I am." },
+  { author:"Sylvia Plath", title:"Fever 103°", lines:"I think I am going up,\nI think I may rise —\nThe beads of hot metal fly, and I, love, I\nam a pure acetylene\nVirgin." },
+  { author:"Ted Hughes", title:"The Hawk in the Rain", lines:"I drown in the drumming ploughland, I drag up\nHeel after heel from the swallowing of the earth's mouth,\nFrom clay that clutches my each step to the ankle." },
+
+  // NERUDA
+  { author:"Pablo Neruda", title:"Tonight I Can Write", lines:"Tonight I can write the saddest lines.\nI loved her, and sometimes she loved me too.\nThrough nights like this one I held her in my arms.\nI kissed her again and again under the endless sky." },
+  { author:"Pablo Neruda", title:"Ode to My Socks", lines:"Twice beautiful is beauty\nand what is good is doubly good\nwhen it's a matter of two wool socks\nin winter." },
+  { author:"Pablo Neruda", title:"Every Day You Play", lines:"I want to do with you\nwhat spring does with the cherry trees." },
+
+  // ELIOT & DICKINSON
+  { author:"T.S. Eliot", title:"The Love Song of J. Alfred Prufrock", lines:"Do I dare\nDisturb the universe?\nIn a minute there is time\nFor decisions and revisions\nwhich a minute will reverse." },
+  { author:"T.S. Eliot", title:"Little Gidding", lines:"We shall not cease from exploration,\nand the end of all our exploring\nwill be to arrive where we started\nand know the place for the first time." },
+  { author:"Emily Dickinson", title:"Poem 254", lines:"Hope is the thing with feathers\nthat perches in the soul,\nand sings the tune without the words,\nand never stops at all." },
+  { author:"Emily Dickinson", title:"Poem 288", lines:"I'm Nobody! Who are you?\nAre you – Nobody – too?\nThen there's a pair of us — don't tell!" },
+  { author:"Emily Dickinson", title:"Poem 1263", lines:"Tell all the truth but tell it slant —\nSuccess in Circuit lies,\nToo bright for our infirm Delight\nThe Truth's superb surprise." },
+
+  // HUGHES & OLIVER
+  { author:"Langston Hughes", title:"A Dream Deferred", lines:"What happens to a dream deferred?\nDoes it dry up\nlike a raisin in the sun?\nOr does it explode?" },
+  { author:"Langston Hughes", title:"Mother to Son", lines:"Life for me ain't been no crystal stair.\nIt's had tacks in it,\nAnd splinters,\nAnd boards torn up.\nBut all the time\nI'se been a-climbin' on." },
+  { author:"Mary Oliver", title:"The Summer Day", lines:"Tell me, what is it you plan to do\nwith your one wild and precious life?" },
+  { author:"Mary Oliver", title:"When Death Comes", lines:"When it's over, I want to say:\nall my life I was a bride married to amazement.\nI was the bridegroom, taking the world into my arms." },
+  { author:"Mary Oliver", title:"The Journey", lines:"One day you finally knew\nwhat you had to do, and began,\nthough the voices around you\nkept shouting their bad advice." },
+
+  // RUMI & GIBRAN
+  { author:"Rumi", title:"The Guest House", lines:"This being human is a guest house.\nEvery morning a new arrival.\nA joy, a depression, a meanness —\ntreat each guest honorably.\nHe may be clearing you out\nfor some new delight." },
+  { author:"Rumi", title:"Masnavi", lines:"Out beyond ideas of wrongdoing and rightdoing,\nthere is a field.\nI'll meet you there." },
+  { author:"Rumi", title:"Masnavi", lines:"Yesterday I was clever,\nso I wanted to change the world.\nToday I am wise,\nso I am changing myself." },
+  { author:"Khalil Gibran", title:"The Prophet", lines:"Your pain is the breaking of the shell\nthat encloses your understanding.\nEven as the stone of the fruit must break,\nthat its heart may stand in the sun,\nso must you know pain." },
+  { author:"Khalil Gibran", title:"The Prophet", lines:"You talk when you cease to be at peace with your thoughts.\nAnd when you can no longer dwell in the solitude of your heart\nyou live in your lips, and sound is a diversion and a pastime." },
+
+  // HESSE & BRECHT
+  { author:"Hermann Hesse", title:"Steppenwolf", lines:"I was one who seeks,\nand I still am,\nbut I no longer seek in the stars or in books.\nI'm beginning to hear the teachings\nof my blood pulsing within me." },
+  { author:"Hermann Hesse", title:"Siddhartha", lines:"I have always believed,\nand I still believe,\nthat whatever good or bad fortune may come our way\nwe can always give it meaning and transform it into something of value." },
+  { author:"Hermann Hesse", title:"Demian", lines:"I wanted only to live in accord\nwith the promptings which came from my true self.\nWhy was that so very difficult?" },
+  { author:"Bertolt Brecht", title:"To Those Who Come After", lines:"In the dark times\nwill there also be singing?\nYes, there will also be singing\nabout the dark times." },
+
+  // BLAKE & KEATS
+  { author:"William Blake", title:"Auguries of Innocence", lines:"To see a World in a Grain of Sand\nAnd a Heaven in a Wild Flower,\nHold Infinity in the palm of your hand\nAnd Eternity in an hour." },
+  { author:"William Blake", title:"The Marriage of Heaven and Hell", lines:"No bird soars too high\nif he soars with his own wings." },
+  { author:"William Blake", title:"Proverbs of Hell", lines:"The road of excess leads to the palace of wisdom.\nYou never know what is enough\nunless you know what is more than enough." },
+  { author:"John Keats", title:"Ode on a Grecian Urn", lines:"Beauty is truth, truth beauty —\nthat is all ye know on earth,\nand all ye need to know." },
+  { author:"John Keats", title:"Letter to George and Thomas Keats", lines:"At once it struck me what quality went to form\na Man of Achievement,\nespecially in Literature.\nNegative Capability:\nwhen a man is capable of being in uncertainties." },
+
+  // BAUDELAIRE & RIMBAUD
+  { author:"Charles Baudelaire", title:"Flowers of Evil", lines:"I have felt the wind on my wing,\nI have known the undertow.\nI am marked by it.\nAnd I wouldn't have it otherwise." },
+  { author:"Charles Baudelaire", title:"Paris Spleen", lines:"Always be a poet,\neven in prose." },
+  { author:"Arthur Rimbaud", title:"A Season in Hell", lines:"I is another.\nIf brass wakes up a trumpet,\nit is not its fault." },
+  { author:"Arthur Rimbaud", title:"Illuminations", lines:"One must be absolutely modern." },
+
+  // LORCA & VALLEJO
+  { author:"Federico García Lorca", title:"Poet in New York", lines:"I want to sleep the dream of the apples,\nto withdraw from the tumult of cemeteries.\nI want to sleep the dream of that child\nwho wanted to cut his heart on the high seas." },
+  { author:"Federico García Lorca", title:"Theory and Play of the Duende", lines:"The duende does not come at all\nunless he sees that death is possible.\nThe duende must know\nthat he can serenade death's house\nand rock those branches we all wear." },
+  { author:"César Vallejo", title:"Black Stone on a White Stone", lines:"I will die in Paris, in a rainstorm,\non a day I already remember.\nI will die in Paris — and I don't shy away —\nperhaps on a Thursday, as today is Thursday, in autumn." },
+
+  // CONFUCIUS, PASCAL, PASCAL
+  { author:"Blaise Pascal", title:"Pensées", lines:"All of humanity's problems stem from man's inability\nto sit quietly in a room alone." },
+  { author:"Blaise Pascal", title:"Pensées", lines:"The heart has its reasons\nwhich reason knows nothing of." },
+  { author:"Simone de Beauvoir", title:"The Ethics of Ambiguity", lines:"I am an existentialist.\nLife is not given to us, it is made.\nAnd we make it every single day." },
+  { author:"Simone Weil", title:"Gravity and Grace", lines:"Attention is the rarest and purest form of generosity." },
+  { author:"Albert Einstein", title:"Letter, 1950", lines:"A human being is a part of the whole,\ncalled by us 'Universe',\na part limited in time and space.\nHe experiences himself as something separated from the rest —\na kind of optical delusion of his consciousness." },
+
+  // OCTAVIO PAZ & BORGES
+  { author:"Octavio Paz", title:"Sunstone", lines:"I travel your waist as if I were a river,\nyour body is the shore\nI'm always failing to reach." },
+  { author:"Jorge Luis Borges", title:"You Learn", lines:"After a while you learn\nthe subtle difference between\nholding a hand and chaining a soul.\nAnd you learn that love doesn't mean leaning." },
+  { author:"Jorge Luis Borges", title:"Fictions", lines:"Time forks perpetually toward innumerable futures.\nIn one of them I am your enemy." },
+
+  // FINAL WILD CARDS
+  { author:"Jack Kerouac", title:"On the Road", lines:"The only people for me are the mad ones,\nthe ones who are mad to live,\nmad to talk, mad to be saved,\ndesirous of everything at the same time." },
+  { author:"Jack Kerouac", title:"Dharma Bums", lines:"There was nowhere to go but everywhere,\nso just keep rolling under the stars." },
+  { author:"Henry Miller", title:"Tropic of Cancer", lines:"I have no money, no resources, no hopes.\nI am the happiest man alive." },
+  { author:"Samuel Beckett", title:"Worstward Ho", lines:"Ever tried. Ever failed.\nNo matter. Try again.\nFail again. Fail better." },
+  { author:"Samuel Beckett", title:"Waiting for Godot", lines:"We always find something, eh Didi,\nto give us the impression we exist?" },
+  { author:"Oscar Wilde", title:"The Picture of Dorian Gray", lines:"To define is to limit.\nThe books that the world calls immoral\nare books that show the world its own shame." },
+  { author:"Oscar Wilde", title:"De Profundis", lines:"To live is the rarest thing in the world.\nMost people exist, that is all." },
+  { author:"Toni Morrison", title:"The Source of Self-Regard", lines:"If you have some power,\nthen your job is to empower somebody else." },
+  { author:"James Baldwin", title:"The Fire Next Time", lines:"Not everything that is faced can be changed,\nbut nothing can be changed\nuntil it is faced." },
+  { author:"James Baldwin", title:"Notes of a Native Son", lines:"I love America more than any other country in this world,\nand, exactly for this reason,\nI insist on the right to criticize her perpetually." },
+  { author:"Wislawa Szymborska", title:"View With a Grain of Sand", lines:"We call it a grain of sand,\nbut it calls itself neither grain nor sand.\nIt does just fine without a name,\nwhether general, particular,\npermanent, passing,\nincorrect, or apt." },
+  { author:"Wislawa Szymborska", title:"Nothing Twice", lines:"Nothing can ever happen twice.\nIn consequence, the sorry fact is\nthat we arrive here improvised\nand leave without the chance to practice." },
+  { author:"Czesław Miłosz", title:"Gift", lines:"A day so happy.\nFog lifted early, I worked in the garden.\nHummingbirds were stopping over honeysuckle flowers.\nThere was no thing on earth I wanted to possess." },
+  { author:"Anna Akhmatova", title:"Requiem", lines:"No, not under the vault of alien skies,\nnot under the shelter of alien wings —\nI was with my people then,\nthere, where my people, unfortunately, were." },
+  { author:"Pablo Neruda", title:"Keeping Quiet", lines:"Now we will count to twelve\nand we will all keep still.\nFor once on the face of the earth,\nlet's not speak in any language." },
+  { author:"W.B. Yeats", title:"The Second Coming", lines:"Things fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world.\nThe best lack all conviction,\nwhile the worst are full of passionate intensity." },
+  { author:"W.B. Yeats", title:"When You Are Old", lines:"When you are old and grey and full of sleep,\nand nodding by the fire, take down this book,\nand slowly read, and dream of the soft look\nyour eyes had once, and of their shadows deep." },
+  { author:"Dylan Thomas", title:"Do Not Go Gentle", lines:"Do not go gentle into that good night.\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light." },
+  { author:"e.e. cummings", title:"[i carry your heart]", lines:"i carry your heart with me\ni carry it in my heart\ni am never without it." },
+  { author:"e.e. cummings", title:"[since feeling is first]", lines:"since feeling is first\nwho pays any attention\nto the syntax of things\nwill never wholly kiss you." },
+];
+
+let currentPoemIdx = 0;
+
+function getPoem(dayNum) {
+  return POEMS[(dayNum - 1) % POEMS.length];
+}
+
+function showPoem(dayNum) {
+  currentPoemIdx = (dayNum - 1) % POEMS.length;
+  renderPoem(dayNum);
+  document.getElementById('poem-overlay').classList.add('visible');
+}
+
+function renderPoem(dayNum) {
+  const p = POEMS[currentPoemIdx];
+  document.getElementById('poem-day-label').textContent = 'Day ' + dayNum + ' · poem';
+  document.getElementById('poem-lines').textContent = p.lines;
+  document.getElementById('poem-title').textContent = p.title;
+  document.getElementById('poem-author').textContent = p.author;
+}
+
+document.getElementById('btn-close-poem').addEventListener('click', () => {
+  document.getElementById('poem-overlay').classList.remove('visible');
+});
+
+document.getElementById('btn-next-poem').addEventListener('click', () => {
+  currentPoemIdx = (currentPoemIdx + 1) % POEMS.length;
+  const label = document.getElementById('poem-day-label').textContent;
+  const dayNum = parseInt(label.split(' ')[1]);
+  renderPoem(dayNum);
+});
+
+// ── VENT BUTTON ──
+const VENT_RESPONSES = [
+  "Absorbed. That feeling has been logged, processed, and filed under 'things that won't matter in 6 months.'",
+  "Noted. The universe has received your frustration and is choosing to ignore it, just like your manager.",
+  "Your rage has been composted into existential fuel. Bukowski would be proud.",
+  "That anger? Gone. Dissolved into the void like a strongly-worded email you wisely didn't send.",
+  "Caught it. It tasted like burnt coffee and a 9am mandatory fun meeting.",
+  "Absorbed. For what it's worth, Kafka spent his whole career feeling exactly like this.",
+  "Your frustration has been received and stored alongside everyone else's. There's a lot of it.",
+  "The button felt that. It's fine. It's seen worse. Probably.",
+  "Vented. You are now 0.3% less likely to say something in the group chat that you'd regret.",
+  "That was a good one. Stored it next to all the 'per my last email' energy.",
+  "Processed. The internship cannot defeat you if you refuse to be defeated. Allegedly.",
+  "Absorbed. Marcus Aurelius endured worse and still showed up to work. So will you.",
+  "Received. The existential dread has been temporarily contained. No guarantees it stays there.",
+  "Got it. Sisyphus is pushing the same boulder. At least yours is metaphorical.",
+  "Your frustration has been noted and will be completely ignored by the cosmos. Keep going anyway.",
+  "Absorbed. Whatever just happened — it was probably not worth the cortisol. But we understand.",
+  "That anger? Fed to the void. The void says nothing back, which is honestly kind of comforting.",
+  "Logged under: things that will seem funny later. You're not there yet. That's okay.",
+  "Taken. Stored. Composted. You'll need it again and it'll be ready.",
+  "The button has absorbed approximately 1 unit of workplace suffering. You're still here. That's enough.",
+  "That went straight to the shadow realm. It joins thousands of other intern frustrations. You're not alone.",
+  "Caught it. Smelled like a pointless meeting that could've been an email. Classic.",
+  "Vented. Camus said there's only one truly serious philosophical question. Surviving your internship is a close second.",
+  "Processed. Your suffering has been acknowledged by a small button on a phone screen. Progress.",
+  "Absorbed. The good news: nobody at this company remembers what happened last week. Neither should you.",
+  "That one felt personal. It's fine. Deep breath. You're still 10x more capable than they're letting you be.",
+  "Filed. You are not the frustration. You are the person who tapped the button instead of acting on it. Wise.",
+  "The rage has landed. Nietzsche said what doesn't kill us makes us stronger. He also went insane, but still.",
+  "Absorbed. Whatever just happened — it happened to someone who's almost done. Keep that in mind.",
+  "Received. The button has seen things. It doesn't judge. It just absorbs. Tap again if needed.",
+  "Noted. Somewhere, a philosopher is writing about exactly this kind of suffering. You're practically a muse.",
+  "Got it. Your frustration has been upgraded to 'character-building experience.' You didn't ask for this. No one does.",
+  "Absorbed. This too shall pass. Not quickly. But eventually. Probably by the weekend.",
+  "Taken. Kafka once wrote 'there is infinite hope, but not for us.' He meant it kindly.",
+  "Vented. The intern before you felt this. The intern after you will feel this. You're part of a grand tradition.",
+  "That went somewhere good. Your composure is heroic. Nobody knows how heroic. That's the job.",
+  "Absorbed. You are handling this better than you think. Even if 'handling it' means tapping a button on your phone.",
+  "The frustration has been dissolved. What remains is you — still here, still going. That's actually kind of impressive.",
+  "Noted. The universe is indifferent to your suffering but this button is not. It cares. In its small, digital way.",
+  "Absorbed. One day this will be a great story. Today is not that day. But it's getting closer.",
+];
+
+const VENT_ICONS_SEQUENCE = ['😤','😠','🤬','💀','🫠','😮‍💨','😶','🙂'];
+
+function renderVent() {
+  const count = (state.ventHistory || []).length;
+  document.getElementById('vent-count').textContent = count;
+
+  const history = state.ventHistory || [];
+  const historyEl = document.getElementById('vent-history');
+  const itemsEl = document.getElementById('vent-history-items');
+
+  if (history.length > 0) {
+    historyEl.style.display = 'block';
+    itemsEl.innerHTML = history.slice(0, 5).map(v => `
+      <div class="vent-history-item">
+        <div class="vent-history-text">${v.response}</div>
+        <div class="vent-history-time">${v.time}</div>
+      </div>`).join('');
+  } else {
+    historyEl.style.display = 'none';
+  }
+}
+
+let ventTapCount = 0;
+
+document.getElementById('vent-btn').addEventListener('click', function(e) {
+  ventTapCount++;
+
+  // Ripple effect
+  const ripple = document.createElement('div');
+  ripple.className = 'vent-ripple';
+  const size = this.offsetWidth;
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:0;top:0;`;
+  this.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove());
+
+  // Shake
+  this.classList.remove('shaking');
+  void this.offsetWidth;
+  this.classList.add('shaking');
+  this.addEventListener('animationend', () => this.classList.remove('shaking'), { once: true });
+
+  // Cycle icon
+  const iconEl = document.getElementById('vent-icon');
+  iconEl.textContent = VENT_ICONS_SEQUENCE[ventTapCount % VENT_ICONS_SEQUENCE.length];
+
+  // Pick a random response (not the same as last)
+  const last = (state.ventHistory || [])[0]?.response;
+  let pool = VENT_RESPONSES.filter(r => r !== last);
+  const response = pool[Math.floor(Math.random() * pool.length)];
+
+  // Show response
+  const responseEl = document.getElementById('vent-response');
+  const responseText = document.getElementById('vent-response-text');
+  responseEl.classList.remove('visible');
+  setTimeout(() => {
+    responseText.textContent = response;
+    responseEl.classList.add('visible');
+  }, 200);
+
+  // Save to history
+  const now = new Date();
+  const time = now.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' }) + ' · ' +
+    now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  state.ventHistory = [{ response, time }, ...(state.ventHistory || [])].slice(0, 20);
+  save();
+  renderVent();
+});
+
+document.getElementById('vent-clear').addEventListener('click', () => {
+  state.ventHistory = [];
+  save();
+  document.getElementById('vent-response').classList.remove('visible');
+  ventTapCount = 0;
+  document.getElementById('vent-icon').textContent = '😤';
+  renderVent();
+});
+
+// ── MEMENTO MORI ──
+const MORT_REFLECTIONS = [
+  { text: "You are not guaranteed tomorrow. But you have today. That's not nothing — it's everything.", source: "Seneca" },
+  { text: "The day you were born, you began dying. Every day since has been a gift you didn't earn and can't keep.", source: "Marcus Aurelius, Meditations" },
+  { text: "It is not death that a man should fear, but he should fear never beginning to live.", source: "Marcus Aurelius" },
+  { text: "Think of yourself as dead. You have lived your life. Now take what's left and live it properly.", source: "Marcus Aurelius, Meditations" },
+  { text: "Let us prepare our minds as if we had come to the very end of life. Let us postpone nothing.", source: "Seneca, Letters from a Stoic" },
+  { text: "You act as if you had infinite time. You don't. None of us do. Act accordingly.", source: "Seneca" },
+  { text: "We suffer more in imagination than in reality.", source: "Seneca" },
+  { text: "While we're postponing, life speeds by. Nothing is ours, except time.", source: "Seneca" },
+  { text: "The whole future lies in uncertainty: live immediately.", source: "Seneca" },
+  { text: "Loss is nothing else but change, and change is Nature's delight.", source: "Marcus Aurelius" },
+  { text: "How many a man has dated a new era in his life from the reading of a book. The book exists for the reader. So does the day.", source: "Thoreau" },
+  { text: "I went to the woods because I wished to live deliberately... and not, when I came to die, discover that I had not lived.", source: "Henry David Thoreau, Walden" },
+  { text: "To die would be an awfully big adventure.", source: "J.M. Barrie, Peter Pan" },
+  { text: "Do not go gentle into that good night. Rage, rage against the dying of the light.", source: "Dylan Thomas" },
+  { text: "The fear of death follows from the fear of life. A man who lives fully is prepared to die at any time.", source: "Edward Abbey" },
+  { text: "What we call the beginning is often the end. And to make an end is to make a beginning.", source: "T.S. Eliot" },
+  { text: "Cowards die many times before their deaths. The valiant never taste of death but once.", source: "Shakespeare, Julius Caesar" },
+  { text: "All men think all men mortal but themselves.", source: "Edward Young" },
+  { text: "Life is long if you know how to use it.", source: "Seneca, On the Shortness of Life" },
+  { text: "We are all just walking each other home.", source: "Ram Dass" },
+  { text: "To philosophize is to learn how to die.", source: "Michel de Montaigne" },
+  { text: "From the moment of birth we begin to die.", source: "Manilius" },
+  { text: "Every day is a little life: every waking and rising a little birth, every fresh morning a little youth.", source: "Arthur Schopenhauer" },
+  { text: "Death smiles at us all. All a man can do is smile back.", source: "Marcus Aurelius" },
+  { text: "Live as if you were to die tomorrow. Learn as if you were to live forever.", source: "Mahatma Gandhi" },
+  { text: "The goal of all life is death.", source: "Sigmund Freud" },
+  { text: "It is not the end of the physical body that should worry us. Rather, our concern must be to live while we're alive.", source: "Elisabeth Kübler-Ross" },
+  { text: "To live is the rarest thing in the world. Most people exist, that is all.", source: "Oscar Wilde" },
+  { text: "The life of the dead is placed in the memory of the living.", source: "Cicero" },
+  { text: "As soon as one is born, one starts dying.", source: "Cesare Pavese" },
+  { text: "Die with memories, not dreams.", source: "Unknown" },
+  { text: "You only live once, but if you do it right, once is enough.", source: "Mae West" },
+  { text: "Every moment of one's existence, one is growing into more or retreating into less.", source: "Norman Mailer" },
+  { text: "In the end, it's not the years in your life that count. It's the life in your years.", source: "Abraham Lincoln" },
+  { text: "The bitterest tears shed over graves are for words left unsaid and deeds left undone.", source: "Harriet Beecher Stowe" },
+  { text: "No one here gets out alive.", source: "Jim Morrison" },
+  { text: "Dost thou know how to play, as if thou must die soon? Then thou knowest how to live.", source: "Friedrich Nietzsche" },
+  { text: "We are here to laugh at the odds and live our lives so well that Death will tremble to take us.", source: "Charles Bukowski" },
+  { text: "To be, or not to be — that is the question.", source: "Shakespeare, Hamlet" },
+  { text: "And in the end, it's not the years in your life that count, but the depth in your days.", source: "Unknown" },
+  { text: "Even now, this very moment passes and will not return. What will you do with what remains?", source: "Unknown" },
+];
+
+let mortIdx = Math.floor(Math.random() * MORT_REFLECTIONS.length);
+
+function renderMort() {
+  const done = doneSet().size;
+  const left = 100 - done;
+  const pct = Math.round(done / 100 * 100);
+  const weeks = Math.floor(done / 5);
+
+  document.getElementById('mort-days-done').textContent = done;
+  document.getElementById('mort-days-left').textContent = left;
+  document.getElementById('mort-pct').textContent = pct + '%';
+  document.getElementById('mort-weeks').textContent = weeks;
+  document.getElementById('mort-bar-fill').style.width = pct + '%';
+  document.getElementById('mort-bar-pct').textContent = pct + '%';
+
+  showMortReflection();
+}
+
+function showMortReflection() {
+  const r = MORT_REFLECTIONS[mortIdx % MORT_REFLECTIONS.length];
+  const textEl = document.getElementById('mort-reflection-text');
+  const srcEl = document.getElementById('mort-reflection-source');
+  const wrap = document.getElementById('mort-reflection');
+
+  wrap.style.opacity = '0';
+  wrap.style.transform = 'translateY(8px)';
+  setTimeout(() => {
+    textEl.textContent = '\u201c' + r.text + '\u201d';
+    srcEl.textContent = '— ' + r.source;
+    wrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    wrap.style.opacity = '1';
+    wrap.style.transform = 'translateY(0)';
+  }, 180);
+}
+
+document.getElementById('mort-next').addEventListener('click', () => {
+  mortIdx = (mortIdx + 1) % MORT_REFLECTIONS.length;
+  showMortReflection();
+});
+
+// ── DAILY QUESTION ──
+const QUESTIONS = [
+  { q:"Are you living, or just getting through the days?", src:"Seneca" },
+  { q:"What would you do today if you knew you were being watched by your future self?", src:"Unknown" },
+  { q:"What are you avoiding by staying busy?", src:"Unknown" },
+  { q:"If you had to describe who you are without using your job, your degree, or your name — what would you say?", src:"Unknown" },
+  { q:"What is the most honest thing you've thought today that you haven't said out loud?", src:"Unknown" },
+  { q:"Are you becoming someone you respect?", src:"Unknown" },
+  { q:"What would you do if you weren't afraid of what people thought?", src:"Unknown" },
+  { q:"Is the life you're building the one you actually want, or the one that was expected of you?", src:"Unknown" },
+  { q:"What do you keep postponing, and why?", src:"Seneca" },
+  { q:"If today were your last, would you be at peace with how you lived it?", src:"Marcus Aurelius" },
+  { q:"What truth are you not ready to face yet?", src:"Unknown" },
+  { q:"Who are you when no one is watching?", src:"Unknown" },
+  { q:"What do you owe yourself that you keep giving to other people?", src:"Unknown" },
+  { q:"Are you growing, or just changing?", src:"Unknown" },
+  { q:"What is the difference between the person you are and the person you want to be — and what is in the way?", src:"Unknown" },
+  { q:"What would you think of yourself if you met yourself today?", src:"Unknown" },
+  { q:"What is something you believe that most people around you don't?", src:"Peter Thiel" },
+  { q:"What do you want to have done with your life — not what do you want to do?", src:"Unknown" },
+  { q:"What are you pretending not to know?", src:"Unknown" },
+  { q:"Is the version of yourself you show the world the real one?", src:"Unknown" },
+  { q:"What would it mean to truly waste your life?", src:"Unknown" },
+  { q:"If your mind were a house, which rooms do you avoid?", src:"Unknown" },
+  { q:"What is one thing you are certain of, and how certain are you really?", src:"Descartes" },
+  { q:"What does freedom mean to you — and are you free?", src:"Camus" },
+  { q:"Do you choose your thoughts, or do your thoughts choose you?", src:"Unknown" },
+  { q:"What would you say to the version of yourself from five years ago?", src:"Unknown" },
+  { q:"Are you living your values, or just holding them?", src:"Unknown" },
+  { q:"What is the thing you most want someone to understand about you?", src:"Unknown" },
+  { q:"What would you do differently if you knew nobody would ever find out?", src:"Unknown" },
+  { q:"Is there a version of your life you gave up on? Should you have?", src:"Unknown" },
+  { q:"What does it mean to be good — and are you trying to be?", src:"Socrates" },
+  { q:"If you had to live your life over again, what would you change first?", src:"Unknown" },
+  { q:"What are you loyal to that no longer deserves your loyalty?", src:"Unknown" },
+  { q:"What is the bravest thing you have done quietly, without anyone noticing?", src:"Unknown" },
+  { q:"Are you the author of your life, or a character in someone else's?", src:"Sartre" },
+  { q:"What do you need to let go of to become who you want to be?", src:"Unknown" },
+  { q:"What would it look like to live with no regrets — not just saying it, but actually doing it?", src:"Unknown" },
+  { q:"Where do you end and other people's expectations begin?", src:"Unknown" },
+  { q:"What is something beautiful you've stopped noticing?", src:"Unknown" },
+  { q:"What does your body know that your mind hasn't admitted yet?", src:"Unknown" },
+  { q:"What conversation have you been putting off having with yourself?", src:"Unknown" },
+  { q:"When did you last do something for no reason other than it felt alive?", src:"Unknown" },
+  { q:"What is the story you tell yourself about who you are — and is it true?", src:"Unknown" },
+  { q:"What would you be if ambition had nothing to do with it?", src:"Unknown" },
+  { q:"What is the kindest thing anyone has ever said to you, and do you believe it?", src:"Unknown" },
+  { q:"Are you at war with yourself — and if so, which side are you on?", src:"Unknown" },
+  { q:"What do you know now that you wish you had known at the beginning?", src:"Unknown" },
+  { q:"What does silence feel like when you're alone — and what does that tell you?", src:"Pascal" },
+  { q:"If your life were a book, what chapter are you in — and is it the one you want to be in?", src:"Unknown" },
+  { q:"What is the smallest thing that makes you feel most like yourself?", src:"Unknown" },
+  { q:"What are you not saying because you're afraid of being wrong?", src:"Unknown" },
+  { q:"Is there a person you've outgrown but haven't admitted it to yourself yet?", src:"Unknown" },
+  { q:"What do you want your life to mean — not to others, but to you?", src:"Unknown" },
+  { q:"What would a braver version of you do today?", src:"Unknown" },
+  { q:"What do you need more of, and what are you waiting for?", src:"Unknown" },
+  { q:"What is the difference between who you are and who you're pretending to be?", src:"Unknown" },
+  { q:"What does it feel like to be you, right now, today?", src:"Unknown" },
+  { q:"If comfort is the enemy of growth, what are you comfortable with that you shouldn't be?", src:"Unknown" },
+  { q:"What truth, if you fully accepted it, would change everything?", src:"Nietzsche" },
+  { q:"What are you building — and is it something you'll be proud of?", src:"Unknown" },
+  { q:"Are you the person your younger self would have wanted to become?", src:"Unknown" },
+];
+
+// Seed by calendar date so the same question shows all day
+function getDayIndex() {
+  const d = new Date();
+  const seed = d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate();
+  return seed % QUESTIONS.length;
+}
+
+let qOffset = 0;
+
+function renderQuestion() {
+  const idx = (getDayIndex() + qOffset + QUESTIONS.length) % QUESTIONS.length;
+  const item = QUESTIONS[idx];
+
+  const today = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('q-date').textContent = today;
+
+  const textEl = document.getElementById('q-text');
+  const srcEl = document.getElementById('q-source');
+  textEl.classList.remove('visible');
+  srcEl.classList.remove('visible');
+
+  setTimeout(() => {
+    textEl.textContent = '\u201c' + item.q + '\u201d';
+    srcEl.textContent = item.src !== 'Unknown' ? '— ' + item.src : '';
+    textEl.classList.add('visible');
+    srcEl.classList.add('visible');
+  }, 100);
+
+  // Show last 3 questions as recent
+  const prevItems = [];
+  for (let i = 1; i <= 3; i++) {
+    const prevIdx = (getDayIndex() - i + QUESTIONS.length) % QUESTIONS.length;
+    prevItems.push(QUESTIONS[prevIdx]);
+  }
+  const prevWrap = document.getElementById('q-prev-wrap');
+  const prevContainer = document.getElementById('q-prev-items');
+  prevWrap.style.display = 'block';
+  prevContainer.innerHTML = prevItems.map((p, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (i+1));
+    const label = d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    return `<div class="q-prev-item">
+      <div class="q-prev-item-text">${p.q}</div>
+      <div class="q-prev-item-date">${label}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('q-next-btn').addEventListener('click', () => {
+  qOffset = (qOffset + 1) % QUESTIONS.length;
+  renderQuestion();
+});
+
+document.getElementById('q-prev-btn').addEventListener('click', () => {
+  qOffset = (qOffset - 1 + QUESTIONS.length) % QUESTIONS.length;
+  renderQuestion();
+});
+
+// Reset
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  if(!confirm('Reset all checked days?'))return;
+  state.done=[]; state.seenMilestones=[]; save(); buildGrid(); render();
+});
+
+load(); buildGrid(); render(); renderMoodLog(); renderVent(); renderMort(); renderQuestion(); showQuote();
+setInterval(updateEOD,30000);
+</script>
+</body>
+</html>
